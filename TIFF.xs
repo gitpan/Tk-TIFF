@@ -19,6 +19,8 @@
 #include "tkGlue.m"
 
 extern Tk_PhotoImageFormat      imgFmtTIFF;
+TkimgphotoVtab *TkimgphotoVptr;
+ImgintVtab *ImgintVptr;
 
 DECLARE_VTABLES;
 
@@ -29,7 +31,7 @@ PROTOTYPES: DISABLE
 BOOT:
  {
   IMPORT_VTABLES;
-  install_vtab("TkimgphotoVtab",TkimgphotoVGet(),sizeof(TkimgphotoVtab));
-  install_vtab("ImgintVtab",ImgintVGet(),sizeof(ImgintVtab));
+  TkimgphotoVptr = (TkimgphotoVtab *) SvIV(FindTkVarName("TkimgphotoVtab",5));
+  ImgintVptr     = (ImgintVtab *) SvIV(FindTkVarName("ImgintVtab",5));
   Tk_CreatePhotoImageFormat(&imgFmtTIFF);
  }
