@@ -1,0 +1,14 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+TIFF.pm
+TIFF.xs
+imgTIFF.c
+#imgTIFFjpeg.c
+#imgTIFFzip.c
+test.pl
+test-2channel.tif
+test-lzw.tif
+test-none.tif
+test-packbits.tif
