@@ -1,5 +1,6 @@
 use Tk::MMutil;
 use Tk::Config;
+use Config;
 
 Tk::MMutil::TkExtMakefile
   (
@@ -11,7 +12,7 @@ Tk::MMutil::TkExtMakefile
    #'INC'           => '-I/usr/local/include/tiff34',
    'LIBS'          => ['-ltiff -ljpeg'],
    'INC'           => '',
-   'OBJECT'        => '$(O_FILES)',
+   'OBJECT'        => '$(O_FILES) $(INSTALLSITEARCH)/auto/Tk/Photo/Photo.' . $Config{'dlext'},
    'VERSION_FROM'  => 'TIFF.pm',
    'dist'      => {'COMPRESS'=>'gzip -9f', 'SUFFIX' => '.gz',
                    'POSTOP'=>'-$(CHMOD) 644 $(DISTVNAME).tar$(SUFFIX)'},
