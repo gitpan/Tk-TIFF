@@ -1,5 +1,8 @@
 Revision history for Perl extension Tk::TIFF.
 
+0.06
+	- changed test no. 7 to compare the monochrome image
+
 0.05
 	- now builds (hopefully) with Linux
 

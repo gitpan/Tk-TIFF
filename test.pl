@@ -2,7 +2,7 @@
 # -*- perl -*-
 
 #
-# $Id: test.pl,v 1.2 1998/05/24 18:28:29 eserte Exp $
+# $Id: test.pl,v 1.3 1999/04/14 18:14:10 eserte Exp $
 # Author: Slaven Rezic
 #
 # Copyright (C) 1998 Slaven Rezic. All rights reserved.
@@ -42,7 +42,10 @@ foreach (@p) {
 }
 $top->update;
 sleep 1;
-$p[0]->write("$tmp/tifftest2.tif");
+# Don't use the first image (with colors), because there are problems
+# with ppc-linux (different colors for both images), but rather
+# test if the monochrome image is the same.
+$p[1]->write("$tmp/tifftest2.tif");
 
 print ((!-r "$tmp/tifftest2.tif" ? "not " : "") . "ok " . $ok++ . "\n");
 

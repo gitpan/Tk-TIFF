@@ -6,7 +6,7 @@ require Tk::Photo;
 use vars qw($VERSION @ISA);
 @ISA = qw(DynaLoader);
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 bootstrap Tk::TIFF $Tk::VERSION;
 
