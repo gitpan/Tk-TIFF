@@ -70,3 +70,18 @@ Tk::MMutil::TkExtMakefile
    'PREREQ_PM'     => {'Tk' => 800.014 },
    'AUTHOR'        => $author,
   );
+
+sub MY::postamble {
+    my $postamble = "";
+
+    if (defined $ENV{USER} && $ENV{USER} eq 'eserte') {
+	$postamble .= <<'EOF';
+
+.include "../../perl.release.mk"
+.include "../../perl.cvs.mk"
+
+EOF
+    }
+
+    $postamble;
+}

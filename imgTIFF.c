@@ -55,10 +55,24 @@ extern int unlink _ANSI_ARGS_((CONST char *));
  * Prototypes for local procedures defined in this file:
  */
 
+/*
+  The extra Tcl_Interp * arg was added in different
+  place when tcl/tk adopted this code so we need two
+  signatures of a couple of functions - one for Tk800 and
+  one for modern Tk
+*/
+#if TK_MAJOR_VERSION == 8 && TK_MINOR_VERSION == 0
 static int ChnMatchTIFF _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan, char *fileName,
 	Tcl_Obj *format, int *widthPtr, int *heightPtr));
 static int ObjMatchTIFF _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *dataObj,
 	Tcl_Obj *format, int *widthPtr, int *heightPtr));
+#else
+static int ChnMatchTIFF _ANSI_ARGS_((Tcl_Channel chan, char *fileName,
+	Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp));
+static int ObjMatchTIFF _ANSI_ARGS_((Tcl_Obj *dataObj,
+	Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl_Interp *interp));
+#endif
+
 static int ChnReadTIFF _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Channel chan,
 	char *fileName, Tcl_Obj *format, Tk_PhotoHandle imageHandle,
 	int destX, int destY, int width, int height, int srcX, int srcY));
@@ -348,12 +362,12 @@ static int closeDummy _ANSI_ARGS_((thandle_t));
 static tsize_t writeDummy _ANSI_ARGS_((thandle_t, tdata_t, tsize_t));
 
 static tsize_t readMFile _ANSI_ARGS_((thandle_t, tdata_t, tsize_t));
-static tsize_t seekMFile _ANSI_ARGS_((thandle_t, toff_t, int));
+static toff_t seekMFile _ANSI_ARGS_((thandle_t, toff_t, int));
 static toff_t  sizeMFile _ANSI_ARGS_((thandle_t));
 
 static tsize_t readString _ANSI_ARGS_((thandle_t, tdata_t, tsize_t));
 static tsize_t writeString _ANSI_ARGS_((thandle_t, tdata_t, tsize_t));
-static tsize_t seekString _ANSI_ARGS_((thandle_t, toff_t, int));
+static toff_t seekString _ANSI_ARGS_((thandle_t, toff_t, int));
 static toff_t  sizeString _ANSI_ARGS_((thandle_t));
 
 static char *errorMessage = NULL;
@@ -490,7 +504,7 @@ readMFile(fd, data, size)
     return (tsize_t) ImgRead((MFile *) fd, (char *) data, (int) size) ;
 }
 
-static tsize_t
+static toff_t
 seekMFile(fd, off, whence)
     thandle_t fd;
     toff_t off;
@@ -563,7 +577,7 @@ writeString(fd, data, size)
     return size;
 }
 
-static tsize_t
+static toff_t
 seekString(fd, off, whence)
     thandle_t fd;
     toff_t off;
@@ -615,8 +629,11 @@ sizeString(fd)
  *----------------------------------------------------------------------
  */
 
-static int
-ObjMatchTIFF(interp, data, format, widthPtr, heightPtr)
+#if TK_MAJOR_VERSION == 8 && TK_MINOR_VERSION == 0
+static int ObjMatchTIFF(interp, data, format, widthPtr, heightPtr)
+#else
+static int ObjMatchTIFF(data, format, widthPtr, heightPtr, interp)
+#endif
     Tcl_Interp *interp;
     Tcl_Obj *data;		/* the object containing the image data */
     Tcl_Obj *format;		/* the image format string */
@@ -632,7 +649,11 @@ ObjMatchTIFF(interp, data, format, widthPtr, heightPtr)
     return CommonMatchTIFF(&handle, widthPtr, heightPtr);
 }
 
+#if TK_MAJOR_VERSION == 8 && TK_MINOR_VERSION == 0
 static int ChnMatchTIFF(interp, chan, fileName, format, widthPtr, heightPtr)
+#else
+static int ChnMatchTIFF(chan, fileName, format, widthPtr, heightPtr, interp)
+#endif
     Tcl_Interp *interp;
     Tcl_Channel chan;
     char *fileName;
