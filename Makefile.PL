@@ -1,6 +1,7 @@
 # -*- perl -*-
 use Tk::MMutil;
 use Tk::Config;
+use Tk;
 use Config;
 
 #####################################################################
@@ -15,13 +16,21 @@ my $need_photo_so = 0;
 #
 ######################################################################
 
+my $Author = 'Slaven Rezic (eserte@cs.tu-berlin.de)';
+
 # check endianess...
 my $adddef = "";
-if ($Config{"byteorder"} eq '4321') {
+if ($Config{"byteorder"} eq '4321' ||
+    $Config{"byteorder"} eq '87654321') {
     $adddef = "-DWORDS_BIGENDIAN";
-} elsif ($Config{"byteorder"} ne '1234') {
+} elsif ($Config{"byteorder"} ne '1234' &&
+	 $Config{"byteorder"} ne '12345678') {
     warn "Unknown byte order $Config{byteorder}. ".
-	 "Please report to the author!\n";
+	 "Please report to $Author!\n";
+}
+
+if ($Tk::VERSION <= 800.015) { # XXX not sure about the right version
+    $adddef .= " -DUSE_IMGSEEK";
 }
 
 my @libs;
@@ -34,6 +43,7 @@ if ($tiff34) {
     push @inc,  qw(-I/usr/local/include);
     push @libs, qw(-L/usr/local/lib -ltiff -ljpeg);
 }
+push @libs, "-lz";
 
 # include Photo.so
 my $photo_so = "";
@@ -58,5 +68,5 @@ Tk::MMutil::TkExtMakefile
    'dist'          => { 'COMPRESS'=>'gzip -9f', 'SUFFIX' => '.gz',
                         'POSTOP'=>'-$(CHMOD) 644 $(DISTVNAME).tar$(SUFFIX)' },
    'PREREQ_PM'     => {'Tk' => 800.014 },
-   'AUTHOR'        => 'Slaven Rezic (eserte@cs.tu-berlin.de)',
+   'AUTHOR'        => $author,
   );

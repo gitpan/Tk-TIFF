@@ -1,10 +1,10 @@
 README
 ------
 
-This is an extension for Tk800.014 which supplies TIFF format loader
-for Photo image type. The TIFF code is stolen from imgTIFF.c from the
-img1.2b2 distribution by Jan Nijtmans. Use Tk-TIFF-0.01 for a Tk40*.*
-version.
+This is an extension for Tk800.014 and upper which supplies TIFF
+format loader for Photo image type. The TIFF code is stolen from
+imgTIFF.c from the img1.2b2 distribution by Jan Nijtmans. Use
+Tk-TIFF-0.01 for a Tk40*.* version.
 
 Installation:
 
@@ -23,12 +23,15 @@ typing:
 
 The module is only tested with the following configurations:
 
-* FreeBSD-3.3, perl 5.005_03, Tk 800.015, tiff 3.5.1, jpeg 6b
-* Linux 2.2.10 (Suse 6.2), perl 5.005_03, Tk 800.014, tiff 3.4, jpeg 6b
+* FreeBSD-4.4, perl 5.005_03, Tk 800.023, tiff 3.5.4, jpeg 6b
+* FreeBSD-4.4, perl 5.7.2, Tk 800.023, tiff 3.5.4, jpeg 6b
 
 Previous versions worked with other Linux and FreeBSD configurations.
 I expect that there are no more endian problems, so this module will
 also work on Sun Sparcs and other machines.
+
+For AIX, I got reports that you have to manually add -lm and -lgcc to
+the @libs variable in Makefile.PL.
 
 Slaven Rezic <eserte@cs.tu-berlin.de>
 

@@ -496,7 +496,11 @@ seekMFile(fd, off, whence)
     toff_t off;
     int whence;
 {
+#ifdef USE_IMGSEEK
     return (tsize_t) ImgSeek((MFile *) fd, (int) off, whence);
+#else
+    return Tcl_Seek((Tcl_Channel) ((MFile *) fd)->data, (int) off, whence);
+#endif
 }
 
 static toff_t
@@ -504,7 +508,12 @@ sizeMFile(fd)
     thandle_t fd;
 {
     int fsize;
+#ifdef USE_IMGSEEK
     return (fsize = ImgSeek((MFile *) fd, 0, SEEK_END)) < 0 ? 0 : (toff_t) fsize;
+#else
+    return (fsize = Tcl_Seek((Tcl_Channel) ((MFile *) fd)->data,
+            (int) 0, SEEK_END)) < 0 ? 0 : (toff_t) fsize;
+#endif
 }
 
 /*
