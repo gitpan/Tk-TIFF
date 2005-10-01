@@ -50,6 +50,7 @@ if (eval { require MIME::Base64; }) {
 	for (1..scalar(@tifflist));
 }
 
+
 foreach (@tifflist) {
 	my $p;
 	eval { $p = $top->Photo(-file => $_) };
@@ -58,6 +59,20 @@ foreach (@tifflist) {
 		print "ok " . $ok++ . " $_\n";
 	} else {
 		print "not ok " . $ok++ . " $_\n";
+		warn "\t$@\n" if $@;
+	}
+}
+
+
+{
+  Tk::TIFF::setHistEqual(1);
+	my $p;
+	eval { $p = $top->Photo(-file => "test-float.tif") };
+	if ($p && !$@) {
+		push @p, $p;
+		print "ok " . $ok++ . " Histogram-Equalized Float TIFF\n";
+	} else {
+		print "not ok " . $ok++ . " Histogram-Equalized Float TIFF\n";
 		warn "\t$@\n" if $@;
 	}
 }
@@ -77,6 +92,9 @@ foreach (@p) {
 	sleep 1;
 	$t->destroy;
 }
+
+
+
 
 # Don't use the first image (with colors), because there are problems
 # with ppc-linux (different colors for both images), but rather
