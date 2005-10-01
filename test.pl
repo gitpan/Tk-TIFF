@@ -23,54 +23,61 @@ $ok = 1;
 print "ok " . $ok++ . "\n";
 $tmp = "/tmp";
 
-$top = new MainWindow;
+$top = new MainWindow(-width => 800, -height => 600);
+
+@tifflist = qw(test-none.tif test-2channel.tif test-lzw.tif test-packbits.tif
+               test-float.tif);
 
 # string read first
 if (eval { require MIME::Base64; }) {
-    foreach (qw(test-none.tif test-2channel.tif test-lzw.tif test-packbits.tif)) {
-	open(F, $_) or die "Can't open $_: $!";
-	binmode F;
-	undef $/;
-	my $buf = <F>;
-	close F;
-	my $p;
-	eval { $p = $top->Photo(-data => MIME::Base64::encode_base64($buf)) };
-	if ($p && !$@) {
-	    print "ok " . $ok++ . "\n";
-	} else {
-	    warn $@ if $@;
-	    print "not ok " . $ok++ . "\n";
+	foreach (@tifflist) {
+		open(F, $_) or die "Can't open $_: $!";
+		binmode F;
+		undef $/;
+		my $buf = <F>;
+		close F;
+		my $p;
+		eval { $p = $top->Photo(-data => MIME::Base64::encode_base64($buf)) };
+		if ($p && !$@) {
+			print "ok " . $ok++ . " $_\n";
+		} else {
+			print "not ok " . $ok++ . " $_\n";
+			warn "\t$@\n" if $@;
+		}
 	}
-    }
 } else {
-    print "ok " . $ok++ . " # skipping test: no MIME::Base64 installed\n"
-	for (1..4);
+	print "ok " . $ok++ . " # skipping test: no MIME::Base64 installed\n"
+	for (1..scalar(@tifflist));
 }
 
-foreach (qw(test-none.tif test-2channel.tif test-lzw.tif test-packbits.tif)) {
-    my $p;
-    eval { $p = $top->Photo(-file => $_) };
-    if ($p && !$@) {
-	push @p, $p;
-	print "ok " . $ok++ . "\n";
-    } else {
-	warn $@ if $@;
-	print "not ok " . $ok++ . "\n";
-    }
+foreach (@tifflist) {
+	my $p;
+	eval { $p = $top->Photo(-file => $_) };
+	if ($p && !$@) {
+		push @p, $p;
+		print "ok " . $ok++ . " $_\n";
+	} else {
+		print "not ok " . $ok++ . " $_\n";
+		warn "\t$@\n" if $@;
+	}
 }
 
 if (!-d $tmp && !-w $tmp) {
-    for(; $ok <= $last; $ok++) {
-	print "ok $ok # skipping test: $tmp not writeable\n"
-    }
-    exit 0;
+	for(; $ok <= $last; $ok++) {
+		print "ok $ok # skipping test: $tmp not writeable\n"
+	}
+	exit 0;
 }
 
+
 foreach (@p) {
-    $top->Label(-image => $_)->pack(-side => 'left');
+	$t = $top->Label(-image => $_)->pack(-side => 'left', -expand => 1);
+	$t->configure(-width => 800, -height => 600);
+	$top->update;
+	sleep 1;
+	$t->destroy;
 }
-$top->update;
-sleep 1;
+
 # Don't use the first image (with colors), because there are problems
 # with ppc-linux (different colors for both images), but rather
 # test if the monochrome image is the same.
@@ -80,21 +87,19 @@ if (!$p[1]) {
 } else {
     $p[1]->write("$tmp/tifftest2.tif");
 
-    print ((!-r "$tmp/tifftest2.tif" ? "not " : "") . "ok " . $ok++ . "\n");
+    print ((!-r "$tmp/tifftest2.tif" ? "not " : "") . "ok " . $ok++ . " Write tifftest2.tif\n");
 
     $p2 = $top->Photo(-file => "$tmp/tifftest2.tif");
     $p2->write("$tmp/tifftest3.tif");
 
     print STDOUT ((compare("$tmp/tifftest2.tif", "$tmp/tifftest3.tif") != 0
-		   ? "not " : "") . "ok " . $ok++ . "\n");
+		   ? "not " : "") . "ok " . $ok++ . " tifftest2.tif == tifftest3.tif\n");
 
     $p2->write("$tmp/tifftest4.tif", '-format' => ['tiff', -compression => 'lzw']);
-    print ((!-r "$tmp/tifftest4.tif" ? "not " : "") . "ok " . $ok++ . "\n");
+    print ((!-r "$tmp/tifftest4.tif" ? "not " : "") . "ok " . $ok++ . " Write lzw tiff\n");
 }
 
 #cleanup
 for (<$tmp/tifftest*.tif>) {
     unlink $_;
 }
-
-#MainLoop;

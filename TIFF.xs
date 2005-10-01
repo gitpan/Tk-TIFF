@@ -18,6 +18,8 @@
 #include "tkGlue.h"
 #include "tkGlue.m"
 
+extern int hist_equal;
+
 extern Tk_PhotoImageFormat      imgFmtTIFF;
 TkimgphotoVtab *TkimgphotoVptr;
 ImgintVtab *ImgintVptr;
@@ -25,6 +27,21 @@ ImgintVtab *ImgintVptr;
 DECLARE_VTABLES;
 
 MODULE = Tk::TIFF	PACKAGE = Tk::TIFF
+
+int
+getHistEqual()
+  CODE:
+      RETVAL = hist_equal;
+  OUTPUT:
+      RETVAL
+
+int
+setHistEqual(x)
+      int x;
+  CODE:
+      RETVAL = (hist_equal = x);
+  OUTPUT:
+      RETVAL
 
 PROTOTYPES: DISABLE
 
