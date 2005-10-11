@@ -6,17 +6,17 @@ use Tk::Photo;
 use vars qw($VERSION @ISA);
 @ISA = qw(DynaLoader);
 
-$VERSION = '0.10';
+$VERSION = '0.09_91';
 
 bootstrap Tk::TIFF $Tk::VERSION;
 
 #
-# There are now two new functions:
-#   # Get current value of global HistEqual Flag.
-#   $hist_equal = Tk::TIFF::getHistEqual();
+# There are now two new functions (which may change!!!):
+#   # Get current value of global ContrastEnhance Flag.
+#   $contrast_enhance = Tk::TIFF::getContrastEnhance();
 #
 #   # Set new value to true or false, returning new value.
-#   $hist_equal = Tk::TIFF::setHistEqual(0|1);
+#   $contrast_enhance = Tk::TIFF::setContrastEnhance(0|1);
 #
 
 1;

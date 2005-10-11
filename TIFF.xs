@@ -18,7 +18,7 @@
 #include "tkGlue.h"
 #include "tkGlue.m"
 
-extern int hist_equal;
+extern int contrast_enhance;
 
 extern Tk_PhotoImageFormat      imgFmtTIFF;
 TkimgphotoVtab *TkimgphotoVptr;
@@ -29,17 +29,17 @@ DECLARE_VTABLES;
 MODULE = Tk::TIFF	PACKAGE = Tk::TIFF
 
 int
-getHistEqual()
+getContrastEnhance()
   CODE:
-      RETVAL = hist_equal;
+      RETVAL = contrast_enhance;
   OUTPUT:
       RETVAL
 
 int
-setHistEqual(x)
+setContrastEnhance(x)
       int x;
   CODE:
-      RETVAL = (hist_equal = x);
+      RETVAL = (contrast_enhance = x);
   OUTPUT:
       RETVAL
 

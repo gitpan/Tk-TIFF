@@ -21,20 +21,23 @@ typing:
 	make test
 	make install
 
-The module is only tested with the following configurations:
+The current version of the module is only tested with the following
+configurations:
 
-* FreeBSD 4.6, perl 5.8.0, Tk 800.024, tiff 3.5.7, jpeg 6b
-* FreeBSD 4.6, perl 5.6.1, Tk 800.024, tiff 3.5.7, jpeg 6b
-* FreeBSD 4.6, perl 5.00503, Tk 800.024, tiff 3.5.7, jpeg 6b
-* Linux 2.4.20, perl 5.8.0, Tk 800.025, tiff 3.5.7, jpeg ?
-* Linux 2.4.20, perl 5.8.1, Tk 804.025-beta3, tiff 3.5.7, jpeg ?
-
+* Linux 2.4.20 (RedHat 8.0), perl 5.8.0, Tk 800.025, tiff 3.5.7, jpeg ? 
+* Linux 2.4.20 (RedHat 8.0), perl 5.8.7, Tk 804.027, tiff 3.5.7, jpeg ? 
+* FreeBSD 4.10, perl 5.8.0, Tk 800.024, tiff 3.5.7, jpeg 6b
+* FreeBSD 4.10, perl 5.8.3, Tk 804.027, tiff 3.5.7, jpeg 6b
+ 
 Previous versions worked with other Linux and FreeBSD configurations.
 I expect that there are no more endian problems, so this module will
 also work on Sun Sparcs and other machines.
 
 For AIX, I got reports that you have to manually add -lm and -lgcc to
 the @libs variable in Makefile.PL.
+
+Since version 0.10, also 32-bit Float-TIFFs are supported, but only
+with Tk804.xxx and newer.
 
 Slaven Rezic <slaven@rezic.de>
 
