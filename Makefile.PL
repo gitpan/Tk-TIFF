@@ -57,17 +57,32 @@ if ($need_photo_so) {
     }
 }
 
+my $LIBS = join(" ", @libs);
+my $INC  = join(" ", @inc);
+
+if (eval { require Devel::CheckLib; 1; }) {
+    my(@libpath) = map { s/^-L//; $_ } grep { /^-L/ } split / /, $LIBS;
+    my(@lib)     = map { s/^-l//; $_ } grep { /^-l/ } split / /, $LIBS;
+    Devel::CheckLib::assert_lib(lib => \@lib, libpath => \@libpath);
+}
+
 Tk::MMutil::TkExtMakefile
   (
    'NAME'          => 'Tk::TIFF',
    'DEFINE'        => "-DHAVE_TIFF_H $adddef",
-   'LIBS'          => [ join(" ", @libs)],
-   'INC'           =>   join(" ", @inc),
+   'LIBS'          => [ $LIBS ],
+   'INC'           => $INC,
    'OBJECT'        => '$(O_FILES) ' . $photo_so,
    'VERSION_FROM'  => 'TIFF.pm',
    'PREREQ_PM'     => {'Tk' => 800.014 },
    'AUTHOR'        => $author,
    'ABSTRACT'      => 'Tk::Photo loader for TIFF files',
+   'EXTRA_META'    => <<'EOF',
+configure_requires:
+  Tk::MMutil: 0
+  Tk::Config: 0
+  Tk: 0
+EOF
   );
 
 sub MY::postamble {
