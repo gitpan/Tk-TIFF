@@ -1,5 +1,8 @@
 Revision history for Perl extension Tk::TIFF.
 
+0.10_51
+	- fixed call to Devel::CheckLib
+
 0.10_50
 	- added configure_requires to META.yml
 	- added experimental Devel::CheckLib check

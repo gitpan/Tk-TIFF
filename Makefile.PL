@@ -63,7 +63,7 @@ my $INC  = join(" ", @inc);
 if (eval { require Devel::CheckLib; 1; }) {
     my(@libpath) = map { s/^-L//; $_ } grep { /^-L/ } split / /, $LIBS;
     my(@lib)     = map { s/^-l//; $_ } grep { /^-l/ } split / /, $LIBS;
-    Devel::CheckLib::assert_lib(lib => \@lib, libpath => \@libpath);
+    Devel::CheckLib::check_lib_or_exit(lib => \@lib, libpath => \@libpath);
 }
 
 Tk::MMutil::TkExtMakefile
