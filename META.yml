@@ -5,6 +5,7 @@ author:
 build_requires:
   ExtUtils::MakeMaker: 0
 configure_requires:
+  Devel::CheckLib: 0
   ExtUtils::MakeMaker: 0
   Tk: 0
   Tk::Config: 0
@@ -24,4 +25,4 @@ requires:
   Tk: 800.014
 resources:
   repository: git://github.com/eserte/tk-tiff.git
-version: 0.10_52
+version: 0.10_53

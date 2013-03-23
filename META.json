@@ -27,6 +27,7 @@
       },
       "configure" : {
          "requires" : {
+            "Devel::CheckLib" : "0",
             "ExtUtils::MakeMaker" : "0",
             "Tk" : "0",
             "Tk::Config" : "0",
@@ -45,5 +46,5 @@
          "url" : "git://github.com/eserte/tk-tiff.git"
       }
    },
-   "version" : "0.10_52"
+   "version" : "0.10_53"
 }
