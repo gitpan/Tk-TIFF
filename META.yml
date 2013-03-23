@@ -1,16 +1,27 @@
---- #YAML:1.0
-name:                Tk-TIFF
-version:             0.10_51
-abstract:            Tk::Photo loader for TIFF files
-license:             ~
-generated_by:        ExtUtils::MakeMaker version 6.36
-distribution_type:   module
-requires:     
-    Tk:                            800.014
-meta-spec:
-    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
-    version: 1.2
+---
+abstract: 'Tk::Photo loader for TIFF files'
+author:
+  - unknown
+build_requires:
+  ExtUtils::MakeMaker: 0
 configure_requires:
-  Tk::MMutil: 0
-  Tk::Config: 0
+  ExtUtils::MakeMaker: 0
   Tk: 0
+  Tk::Config: 0
+  Tk::MMutil: 0
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.120921'
+license: unknown
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Tk-TIFF
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Tk: 800.014
+resources:
+  repository: git://github.com/eserte/tk-tiff.git
+version: 0.10_52

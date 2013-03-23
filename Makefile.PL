@@ -1,8 +1,22 @@
 # -*- perl -*-
+use ExtUtils::MakeMaker;
 use Tk::MMutil;
 use Tk::Config;
 use Tk;
 use Config;
+
+$min_eumm_version = 6.58;
+$eumm_recent_enough = $ExtUtils::MakeMaker::VERSION >= $min_eumm_version;
+
+if (!$eumm_recent_enough) {
+    *MY::dist_core = sub {
+        <<'EOF';
+dist :
+        $(NOECHO) $(ECHO) "Sorry, use a newer EUMM, at least version $min_eumm_version!"
+
+EOF
+    };
+}
 
 #####################################################################
 # CONFIG Vars
@@ -77,12 +91,14 @@ Tk::MMutil::TkExtMakefile
    'PREREQ_PM'     => {'Tk' => 800.014 },
    'AUTHOR'        => $author,
    'ABSTRACT'      => 'Tk::Photo loader for TIFF files',
-   'EXTRA_META'    => <<'EOF',
-configure_requires:
-  Tk::MMutil: 0
-  Tk::Config: 0
-  Tk: 0
-EOF
+    ($eumm_recent_enough ?
+      (META_MERGE => { resources => { repository => 'git://github.com/eserte/tk-tiff.git' },
+		       configure_requires => { 
+			   'Tk::MMutil' => 0,
+			   'Tk::Config' => 0,
+			   'Tk'         => 0,
+		       }
+       }) : ()),
   );
 
 sub MY::postamble {

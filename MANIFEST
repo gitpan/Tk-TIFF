@@ -7,9 +7,11 @@ TIFF.xs
 imgTIFF.c
 #imgTIFFjpeg.c
 #imgTIFFzip.c
-test.pl
-test-2channel.tif
-test-lzw.tif
-test-none.tif
-test-packbits.tif
-test-float.tif
+t/tk-tiff.t
+t/test-2channel.tif
+t/test-lzw.tif
+t/test-none.tif
+t/test-packbits.tif
+t/test-float.tif
+META.yml                                 Module YAML meta-data (added by MakeMaker)
+META.json                                Module JSON meta-data (added by MakeMaker)
