@@ -30,7 +30,6 @@
             "Devel::CheckLib" : "0",
             "ExtUtils::MakeMaker" : "0",
             "Tk" : "0",
-            "Tk::Config" : "0",
             "Tk::MMutil" : "0"
          }
       },
@@ -40,11 +39,11 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "repository" : {
          "url" : "git://github.com/eserte/tk-tiff.git"
       }
    },
-   "version" : "0.10_53"
+   "version" : "0.11"
 }

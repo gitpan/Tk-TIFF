@@ -1,5 +1,8 @@
 Revision history for Perl extension Tk::TIFF.
 
+0.11
+	- stable release
+
 0.10_53
 	- fixed some Makefile problems
 

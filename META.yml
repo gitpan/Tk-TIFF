@@ -8,7 +8,6 @@ configure_requires:
   Devel::CheckLib: 0
   ExtUtils::MakeMaker: 0
   Tk: 0
-  Tk::Config: 0
   Tk::MMutil: 0
 dynamic_config: 1
 generated_by: 'ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.120921'
@@ -25,4 +24,4 @@ requires:
   Tk: 800.014
 resources:
   repository: git://github.com/eserte/tk-tiff.git
-version: 0.10_53
+version: 0.11
